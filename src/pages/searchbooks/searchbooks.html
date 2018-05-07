@@ -10,12 +10,14 @@
 <ion-content padding>
   <ion-searchbar (ionInput)="getItems($event)"></ion-searchbar>
   <ion-list>
-    <ion-item *ngFor="let book of books">
-      <ion-thumbnail item-start>
+    <ion-item *ngFor="let book of books" (click)="openBook(book.id)">
+      <ion-thumbnail item-start *ngIf="book.volumeInfo.imageLinks">
         <img src="{{ book.volumeInfo.imageLinks?.thumbnail}}">
       </ion-thumbnail>
       <h2 text-wrap>{{ book.volumeInfo.title }}</h2>
-      <p text-wrap>{{ book.volumeInfo.description | slice:0:200 }}<span *ngIf="book.volumeInfo.description && book.volumeInfo.description.length > 200">...</span> </p>
+      <p text-wrap>{{ book.volumeInfo.description | slice:0:200 }}
+        <span *ngIf="book.volumeInfo.description && book.volumeInfo.description.length > 200">...</span>
+      </p>
     </ion-item>
   </ion-list>
 </ion-content>

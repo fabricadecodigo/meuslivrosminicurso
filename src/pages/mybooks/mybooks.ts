@@ -1,12 +1,7 @@
+import { BookDetail } from './../../models/book-detail';
+import { BookstorageProvider } from './../../providers/bookstorage/bookstorage';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-
-/**
- * Generated class for the MybooksPage page.
- *
- * See https://ionicframework.com/docs/components/#navigation for more info on
- * Ionic pages and navigation.
- */
 
 @IonicPage()
 @Component({
@@ -14,12 +9,19 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
   templateUrl: 'mybooks.html',
 })
 export class MybooksPage {
+  livrosLendo: BookDetail[] = [];
+  livrosQueJaLi: BookDetail[] = [];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private bookProvider: BookstorageProvider) {
   }
 
-  ionViewDidLoad() {
-    console.log('ionViewDidLoad MybooksPage');
+  ionViewDidEnter(){
+    this.bookProvider.getAll().then((books: BookDetail[]) => {
+      this.livrosLendo = books;
+    })
   }
 
+  abrirLivro(id: string) {
+    this.navCtrl.push('BookDetailPage', { bookId: id });
+  }
 }

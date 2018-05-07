@@ -7,9 +7,13 @@ export class BookApiProvider {
 
   constructor(public http: HttpClient) { }
 
-  get(term: string) {
+  filter(term: string) {
     const params = new HttpParams().set('q', term);
     return this.http.get(this.url + '/volumes', { params: params });
+  }
+
+  get(id: string) {
+    return this.http.get(this.url + `/volumes/${id}`);
   }
 
 

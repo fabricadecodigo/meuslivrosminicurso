@@ -1,0 +1,39 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>{{ book.title }}</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content padding>
+  <ion-list>
+    <ion-item>
+      <ion-thumbnail item-start *ngIf="book.thumbnail">
+        <img src="{{ book.thumbnail }}">
+      </ion-thumbnail>
+      <h2 text-wrap>{{ book.title }}</h2>
+      <h3 text-wrap>{{ book.subtitle }}</h3>
+      <p *ngFor="let author of book.authors">{{ author }}</p>
+      <p>{{ book.publisher }}</p>
+      <p>{{ book.publishedDate | date:'dd/MM/yyyy' }}</p>
+      <p>{{ book.pageCount }} páginas</p>
+
+    </ion-item>
+    <ion-item text-wrap>
+      {{ book.description }}
+    </ion-item>
+  </ion-list>
+
+  <button ion-button icon-left (click)="addToBookmark(book)">
+    <ion-icon name="bookmark"></ion-icon> Favorito
+  </button>
+
+  <button ion-button icon-left (click)="addToBookmark(book)" *ngIf="!lido">
+    <ion-icon name="book"></ion-icon> Lido
+  </button>
+
+  <button ion-button icon-left (click)="addToBookmark(book)" *ngIf="lido">
+    <ion-icon name="book"></ion-icon> Não lido
+  </button>
+
+</ion-content>

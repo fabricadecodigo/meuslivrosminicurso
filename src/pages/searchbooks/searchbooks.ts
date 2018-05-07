@@ -1,7 +1,6 @@
 import { BookApiProvider } from './../../providers/bookapi/bookapi';
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { Observable } from 'rxjs';
 
 @IonicPage()
 @Component({
@@ -19,7 +18,7 @@ export class SearchbooksPage {
     const val = ev.target.value;
 
     if (val && val.trim() != '') {
-      this.bookApi.get(val).subscribe((books: any) => {
+      this.bookApi.filter(val).subscribe((books: any) => {
         this.books = books.items;
       });
     } else {
@@ -27,5 +26,8 @@ export class SearchbooksPage {
     }
   }
 
+  openBook(id: string) {
+    this.navCtrl.push('BookDetailPage', { bookId: id });
+  }
 
 }
