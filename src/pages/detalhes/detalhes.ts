@@ -1,6 +1,6 @@
 import { LivrosApiProvider } from './../../providers/livros-api/livros-api';
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import { LivrosNaoLidosProvider } from '../../providers/livros-nao-lidos/livros-nao-lidos';
 import { LivrosLidosProvider } from '../../providers/livros-lidos/livros-lidos';
 import { Livro } from '../../models/livro';
@@ -15,7 +15,7 @@ export class DetalhesPage {
   lido: boolean;
   favorito: boolean;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams,
+  constructor(public navCtrl: NavController, public navParams: NavParams, private toastCtrl: ToastController,
     private livroApi: LivrosApiProvider, private livrosNaoLidosProvider: LivrosNaoLidosProvider, private livrosLidosProvider: LivrosLidosProvider) {
 
     this.livro = new Livro();
@@ -56,34 +56,78 @@ export class DetalhesPage {
   }
 
   adicionarFavorito(livro: Livro) {
-    this.livrosNaoLidosProvider.adicionar(livro).then(() => {
-      this.favorito = true;
-    });
+    let toast = this.toastCtrl.create({ duration: 2000, position: 'bottom' });
+    this.livrosNaoLidosProvider.adicionar(livro)
+      .then(() => {
+        this.favorito = true;
+        toast.setMessage('Livro adicionado aos favoritos.');
+        toast.present();
+      }).catch(() => {
+        toast.setMessage('Erro ao adicionar o livro aos favoritos.');
+        toast.present();
+      });
   }
 
   removerFavorito(livro: Livro) {
+    let toast = this.toastCtrl.create({ duration: 2000, position: 'bottom' });
+    let promiseLido: Promise<any>;
+    let promiseNaoLido: Promise<any>;
+
     if (this.lido) {
-      this.livrosLidosProvider.remover(livro);
+      promiseLido = this.livrosLidosProvider.remover(livro);
     } else {
-      this.livrosNaoLidosProvider.remover(livro);
+      promiseNaoLido = this.livrosNaoLidosProvider.remover(livro);
     }
 
-    this.favorito = false;
+    Promise.all([promiseLido, promiseNaoLido])
+      .then(() => {
+        this.favorito = false;
+        toast.setMessage('Livro removido dos favoritos.');
+        toast.present();
+      })
+      .catch(() => {
+        toast.setMessage('Erro ao remover o livro dos favoritos.');
+        toast.present();
+      });;
   }
 
   marcarComoLido(livro: Livro) {
-    this.livrosNaoLidosProvider.remover(livro).then(() => {
-      this.livrosLidosProvider.adicionar(livro).then(() => {
-        this.lido = true;
+    let toast = this.toastCtrl.create({ duration: 2000, position: 'bottom' });
+
+    this.livrosNaoLidosProvider.remover(livro)
+      .then(() => {
+        this.livrosLidosProvider.adicionar(livro)
+          .then(() => {
+            this.lido = true;
+            toast.setMessage('Livro marcado como lido.');
+            toast.present();
+          }).catch(() => {
+            toast.setMessage('Erro ao marcar o livro como lido.');
+            toast.present();
+          });
+      }).catch(() => {
+        toast.setMessage('Erro ao marcar o livro como lido.');
+        toast.present();
       });
-    });
   }
 
   marcarComoNaoLido(livro: Livro) {
-    this.livrosLidosProvider.remover(livro).then(() => {
-      this.livrosNaoLidosProvider.adicionar(livro).then(() => {
-        this.lido = false;
+    let toast = this.toastCtrl.create({ duration: 2000, position: 'bottom' });
+
+    this.livrosLidosProvider.remover(livro)
+      .then(() => {
+        this.livrosNaoLidosProvider.adicionar(livro)
+          .then(() => {
+            this.lido = false;
+            toast.setMessage('Livro marcado como não lido.');
+            toast.present();
+          }).catch(() => {
+            toast.setMessage('Erro ao marcar o livro como não lido.');
+            toast.present();
+          });
+      }).catch(() => {
+        toast.setMessage('Erro ao marcar o livro como não lido.');
+        toast.present();
       });
-    });
   }
 }

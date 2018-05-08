@@ -8,7 +8,7 @@
   <ion-list>
     <ion-item-group>
       <ion-item-divider color="secondary">Livros que estou lendo</ion-item-divider>
-      <ion-item *ngIf="livrosLendo.length == 0" text-center>Adicine um item</ion-item>
+      <ion-item *ngIf="livrosLendo.length == 0" text-center>Adicione um livro</ion-item>
 
       <ion-item *ngFor="let livro of livrosLendo" (click)="abrirLivro(livro.id, false)">
         <ion-thumbnail item-start *ngIf="livro.thumbnail">
@@ -23,7 +23,7 @@
 
     <ion-item-group>
       <ion-item-divider color="secondary">Livros que já li </ion-item-divider>
-      <ion-item *ngIf="livrosQueJaLi.length == 0" text-center>Adicine um item</ion-item>
+      <ion-item *ngIf="livrosQueJaLi.length == 0" text-center>Adicione um livro</ion-item>
 
       <ion-item *ngFor="let livro of livrosQueJaLi" (click)="abrirLivro(livro.id, true)">
         <ion-thumbnail item-start *ngIf="livro.thumbnail">

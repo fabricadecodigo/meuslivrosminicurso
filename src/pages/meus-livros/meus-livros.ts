@@ -23,7 +23,7 @@ export class MeusLivrosPage {
     });
 
     this.livrosLidosProvider.recuperarTodos().then((livros: Livro[]) => {
-      this.livrosQueJaLi = livros;
+      this.livrosQueJaLi = livros || [];
     })
   }
 
