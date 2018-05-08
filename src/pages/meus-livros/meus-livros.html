@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-navbar>
+  <ion-navbar color="primary">
     <ion-title>Meus livros</ion-title>
   </ion-navbar>
 </ion-header>
@@ -7,7 +7,7 @@
 <ion-content padding>
   <ion-list>
     <ion-item-group>
-      <ion-item-divider color="light">Livros que estou lendo</ion-item-divider>
+      <ion-item-divider color="secondary">Livros que estou lendo</ion-item-divider>
       <ion-item *ngIf="livrosLendo.length == 0" text-center>Adicine um item</ion-item>
 
       <ion-item *ngFor="let livro of livrosLendo" (click)="abrirLivro(livro.id, false)">
@@ -22,7 +22,7 @@
     </ion-item-group>
 
     <ion-item-group>
-      <ion-item-divider color="light">Livros que já li </ion-item-divider>
+      <ion-item-divider color="secondary">Livros que já li </ion-item-divider>
       <ion-item *ngIf="livrosQueJaLi.length == 0" text-center>Adicine um item</ion-item>
 
       <ion-item *ngFor="let livro of livrosQueJaLi" (click)="abrirLivro(livro.id, true)">

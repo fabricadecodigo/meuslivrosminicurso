@@ -1,5 +1,5 @@
 <ion-header>
-  <ion-navbar>
+  <ion-navbar color="primary">
     <ion-title>{{ livro.title }}</ion-title>
   </ion-navbar>
 </ion-header>
@@ -14,7 +14,7 @@
       <h2 text-wrap>{{ livro.title }}</h2>
       <h3 text-wrap>{{ livro.subtitle }}</h3>
       <p *ngFor="let author of livro.authors">{{ author }}</p>
-      <p>{{ livro.publisher }}</p>
+      <p text-wrap>{{ livro.publisher }}</p>
       <p>{{ livro.publishedDate | date:'dd/MM/yyyy' }}</p>
       <p>{{ livro.pageCount }} páginas</p>
 
@@ -26,7 +26,7 @@
 </ion-content>
 
 <ion-footer>
-  <ion-navbar>
+  <ion-navbar color="secondary">
     <ion-buttons left>
       <button ion-button icon-left (click)="adicionarFavorito(livro)" *ngIf="!favorito">
         <ion-icon name="bookmark"></ion-icon> Favorito
