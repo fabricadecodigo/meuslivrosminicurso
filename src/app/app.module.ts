@@ -1,5 +1,3 @@
-import { LivrosLidoStorageProvider } from './../providers/livroslidostorage/livroslidostorage';
-import { LivrosStorageProvider } from './../providers/livrosstorage/livrosstorage';
 import { NgModule, ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
@@ -9,8 +7,10 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { IonicStorageModule } from '@ionic/storage';
 import { HttpClientModule } from '@angular/common/http';
-import { BookStorageProvider } from '../providers/bookstorage/bookstorage';
-import { BookApiProvider } from '../providers/bookapi/bookapi';
+import { LivrosApiProvider } from '../providers/livros-api/livros-api';
+import { LivrosStorageProvider } from '../providers/livros-storage/livros-storage';
+import { LivrosNaoLidosProvider } from '../providers/livros-nao-lidos/livros-nao-lidos';
+import { LivrosLidosProvider } from '../providers/livros-lidos/livros-lidos';
 
 @NgModule({
   declarations: [
@@ -32,10 +32,11 @@ import { BookApiProvider } from '../providers/bookapi/bookapi';
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    BookStorageProvider,
+    LivrosNaoLidosProvider,
+    LivrosApiProvider,
     LivrosStorageProvider,
-    BookApiProvider,
-    LivrosLidoStorageProvider
+    LivrosNaoLidosProvider,
+    LivrosLidosProvider
   ]
 })
 export class AppModule {}

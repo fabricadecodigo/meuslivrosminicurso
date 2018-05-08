@@ -1,0 +1,20 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Pesquisar</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-searchbar (ionInput)="buscarLivros($event)"></ion-searchbar>
+  <ion-list>
+    <ion-item *ngFor="let livro of livros" (click)="abrirLivro(livro.id)">
+      <ion-thumbnail item-start *ngIf="livro.volumeInfo.imageLinks">
+        <img src="{{ livro.volumeInfo.imageLinks?.thumbnail}}">
+      </ion-thumbnail>
+      <h2 text-wrap>{{ livro.volumeInfo.title }}</h2>
+      <p text-wrap>{{ livro.volumeInfo.description | slice:0:200 }}
+        <span *ngIf="livro.volumeInfo.description && livro.volumeInfo.description.length > 200">...</span>
+      </p>
+    </ion-item>
+  </ion-list>
+</ion-content>

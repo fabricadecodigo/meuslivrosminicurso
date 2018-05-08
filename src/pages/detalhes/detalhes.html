@@ -1,0 +1,50 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>{{ livro.title }}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+  <ion-list>
+    <ion-item>
+      <ion-thumbnail item-start *ngIf="livro.thumbnail">
+        <img src="{{ livro.thumbnail }}">
+      </ion-thumbnail>
+      <h2 text-wrap>{{ livro.title }}</h2>
+      <h3 text-wrap>{{ livro.subtitle }}</h3>
+      <p *ngFor="let author of livro.authors">{{ author }}</p>
+      <p>{{ livro.publisher }}</p>
+      <p>{{ livro.publishedDate | date:'dd/MM/yyyy' }}</p>
+      <p>{{ livro.pageCount }} páginas</p>
+
+    </ion-item>
+    <ion-item text-wrap>
+      {{ livro.description }}
+    </ion-item>
+  </ion-list>
+</ion-content>
+
+<ion-footer>
+  <ion-navbar>
+    <ion-buttons left>
+      <button ion-button icon-left (click)="adicionarFavorito(livro)" *ngIf="!favorito">
+        <ion-icon name="bookmark"></ion-icon> Favorito
+      </button>
+
+      <button ion-button icon-left (click)="removerFavorito(livro)" *ngIf="favorito">
+        <ion-icon name="bookmark"></ion-icon> Remover
+      </button>
+    </ion-buttons>
+
+    <ion-buttons right>
+      <button ion-button icon-left (click)="marcarComoLido(livro)" *ngIf="!lido">
+        <ion-icon name="book"></ion-icon> Lido
+      </button>
+
+      <button ion-button icon-left (click)="marcarComoNaoLido(livro)" *ngIf="lido">
+        <ion-icon name="book"></ion-icon> Não lido
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-footer>

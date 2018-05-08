@@ -2,19 +2,17 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 @Injectable()
-export class BookApiProvider {
+export class LivrosApiProvider {
   url: string = 'https://www.googleapis.com/books/v1';
 
-  constructor(public http: HttpClient) { }
+  constructor(private http: HttpClient) { }
 
-  filter(term: string) {
-    const params = new HttpParams().set('q', term);
+  filtrar(termo: string) {
+    const params = new HttpParams().set('q', termo);
     return this.http.get(this.url + '/volumes', { params: params });
   }
 
-  get(id: string) {
+  recuperar(id: string) {
     return this.http.get(this.url + `/volumes/${id}`);
   }
-
-
 }

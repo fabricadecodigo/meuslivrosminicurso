@@ -1,4 +1,4 @@
-export class BookDetail {
+export class Livro {
   public id: string;
   public title: string;
   public subtitle: string;
