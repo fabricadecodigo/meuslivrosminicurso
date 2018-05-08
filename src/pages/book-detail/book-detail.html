@@ -24,16 +24,30 @@
     </ion-item>
   </ion-list>
 
-  <button ion-button icon-left (click)="addToBookmark(book)">
-    <ion-icon name="bookmark"></ion-icon> Favorito
-  </button>
 
-  <button ion-button icon-left (click)="addToBookmark(book)" *ngIf="!lido">
-    <ion-icon name="book"></ion-icon> Lido
-  </button>
-
-  <button ion-button icon-left (click)="addToBookmark(book)" *ngIf="lido">
-    <ion-icon name="book"></ion-icon> Não lido
-  </button>
 
 </ion-content>
+
+<ion-footer>
+  <ion-navbar>
+    <ion-buttons left>
+      <button ion-button icon-left (click)="adicionarFavorito(book)" *ngIf="!favorito">
+        <ion-icon name="bookmark"></ion-icon> Favorito
+      </button>
+
+      <button ion-button icon-left (click)="removerFavorito(book)" *ngIf="favorito">
+        <ion-icon name="bookmark"></ion-icon> Remover
+      </button>
+    </ion-buttons>
+
+    <ion-buttons right>
+      <button ion-button icon-left (click)="marcarComoLido(book)" *ngIf="!lido">
+        <ion-icon name="book"></ion-icon> Lido
+      </button>
+
+      <button ion-button icon-left (click)="marcarComoNaoLido(book)" *ngIf="lido">
+        <ion-icon name="book"></ion-icon> Não lido
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-footer>

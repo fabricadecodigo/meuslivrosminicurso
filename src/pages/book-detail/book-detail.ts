@@ -1,4 +1,5 @@
-import { BookstorageProvider } from './../../providers/bookstorage/bookstorage';
+import { LivrosLidoStorageProvider } from './../../providers/livroslidostorage/livroslidostorage';
+import { BookStorageProvider } from './../../providers/bookstorage/bookstorage';
 import { BookApiProvider } from './../../providers/bookapi/bookapi';
 import { BookDetail } from './../../models/book-detail';
 import { Component } from '@angular/core';
@@ -12,14 +13,14 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 export class BookDetailPage {
   book: BookDetail;
   lido: boolean;
+  favorito: boolean;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private bookApi: BookApiProvider, private bookProvider: BookstorageProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, private bookApi: BookApiProvider, private livroNaoLido: BookStorageProvider, private livroLidoProvider: LivrosLidoStorageProvider) {
     this.book = new BookDetail();
-    this.lido = false;
+    this.favorito = this.navParams.data.favorito || false;
+    this.lido = this.navParams.data.lido || false;
 
-    if (this.navParams.data) {
-      this.lido = this.navParams.data.lido || false;
-
+    if (this.navParams.data.bookId) {
       this.bookApi.get(this.navParams.data.bookId).subscribe((book: any) => {
         const bookInfo = book.volumeInfo;
         this.book.id = this.navParams.data.bookId;
@@ -54,9 +55,35 @@ export class BookDetailPage {
     console.log('ionViewDidLoad BookDetailPage');
   }
 
-  addToBookmark(book: BookDetail) {
-    this.bookProvider.add(book).then(() => {
-      this.navCtrl.pop();
+  adicionarFavorito(book: BookDetail) {
+    this.livroNaoLido.add(book).then(() => {
+      this.favorito = true;
+    });
+  }
+
+  removerFavorito(book: BookDetail) {
+    if (this.lido) {
+      this.livroLidoProvider.remove(book);
+    } else {
+      this.livroNaoLido.remove(book);
+    }
+
+    this.favorito = false;
+  }
+
+  marcarComoLido(livro: BookDetail) {
+    this.livroNaoLido.remove(livro).then(() => {
+      this.livroLidoProvider.add(livro).then(() => {
+        this.lido = true;
+      });
+    });
+  }
+
+  marcarComoNaoLido(livro: BookDetail) {
+    this.livroLidoProvider.remove(livro).then(() => {
+      this.livroNaoLido.add(livro).then(() => {
+        this.lido = false;
+      });
     });
   }
 }

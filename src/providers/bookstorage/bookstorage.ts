@@ -1,64 +1,22 @@
-import { HttpClient } from '@angular/common/http';
+import { LivrosStorageProvider } from './../livrosstorage/livrosstorage';
 import { Injectable } from '@angular/core';
-import { Storage } from '@ionic/storage';
 import { BookDetail } from '../../models/book-detail';
 
 @Injectable()
-export class BookstorageProvider {
+export class BookStorageProvider {
   private PATH_BOOKS_READING: string = 'booksreading';
 
-  constructor(private storage: Storage) { }
+  constructor(private storage: LivrosStorageProvider) { }
 
   getAll() {
-    return new Promise((resolve, reject) => {
-      this.storage.get(this.PATH_BOOKS_READING)
-        .then((books: BookDetail[]) => {
-          resolve(books)
-        })
-        .catch(() => reject());
-    });
+    return this.storage.getAll(this.PATH_BOOKS_READING);
   }
 
   add(bookToAdd: BookDetail) {
-    return this.getAll()
-      .then((books: BookDetail[]) => {
-        if (!books) {
-          books = [];
-        }
-
-        const book = this.getFromList(books, bookToAdd.id);
-
-        if (!book) {
-          books.push(bookToAdd);
-          return this.save(books);
-        }
-      });
+    return this.storage.add(this.PATH_BOOKS_READING, bookToAdd);
   }
 
   remove(bookToRemove: BookDetail) {
-    return this.getAll()
-      .then((books: BookDetail[]) => {
-        const index = books.indexOf(bookToRemove);
-        books.slice(index, 0);
-
-        return this.save(books);
-      });
+    return this.storage.remove(this.PATH_BOOKS_READING, bookToRemove);
   }
-
-  private save(books: BookDetail[]) {
-    return this.storage.set(this.PATH_BOOKS_READING, books);
-  }
-
-  private getFromList(books: BookDetail[], id: string) {
-    const book = books.filter((book: BookDetail) => {
-      return book.id = id;
-    });
-
-    if (book.length > 0) {
-      return book[0];
-    }
-
-    return null;
-  }
-
 }

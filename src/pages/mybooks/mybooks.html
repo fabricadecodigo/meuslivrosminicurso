@@ -19,7 +19,7 @@
       <ion-item-divider color="light">Livros que estou lendo</ion-item-divider>
       <ion-item *ngIf="livrosLendo.length == 0" text-center>Adicine um item</ion-item>
 
-      <ion-item *ngFor="let livro of livrosLendo" (click)="abrirLivro(livro.id)">
+      <ion-item *ngFor="let livro of livrosLendo" (click)="abrirLivro(livro.id, false)">
         <ion-thumbnail item-start *ngIf="livro.thumbnail">
           <img src="{{ livro.thumbnail }}">
         </ion-thumbnail>
@@ -34,9 +34,9 @@
       <ion-item-divider color="light">Livros que já li </ion-item-divider>
       <ion-item *ngIf="livrosQueJaLi.length == 0" text-center>Adicine um item</ion-item>
 
-      <ion-item *ngFor="let livro of livrosQueJaLi" (click)="abrirLivro(livro.id)">
+      <ion-item *ngFor="let livro of livrosQueJaLi" (click)="abrirLivro(livro.id, true)">
         <ion-thumbnail item-start *ngIf="livro.thumbnail">
-          <img src="{{ book.thumbnail }}">
+          <img src="{{ livro.thumbnail }}">
         </ion-thumbnail>
         <h2 text-wrap>{{ livro.title }}</h2>
         <p text-wrap>{{ livro.description | slice:0:200 }}
